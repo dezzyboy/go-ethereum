@@ -261,12 +261,12 @@ func (w *wizard) manageGenesis() {
 		out, _ := json.MarshalIndent(w.conf.Genesis, "", "  ")
 
 		// Export the native genesis spec used by puppeth and Geth
-		gethJson := filepath.Join(folder, fmt.Sprintf("%s.json", w.network))
-		if err := os.WriteFile(gethJson, out, 0644); err != nil {
+		aegonJson := filepath.Join(folder, fmt.Sprintf("%s.json", w.network))
+		if err := os.WriteFile(aegonJson, out, 0644); err != nil {
 			log.Error("Failed to save genesis file", "err", err)
 			return
 		}
-		log.Info("Saved native genesis chain spec", "path", gethJson)
+		log.Info("Saved native genesis chain spec", "path", aegonJson)
 
 	case "3":
 		// Make sure we don't have any services running

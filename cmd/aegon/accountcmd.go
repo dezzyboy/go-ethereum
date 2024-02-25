@@ -260,7 +260,7 @@ func ambiguousAddrRecovery(ks *keystore.KeyStore, err *keystore.AmbiguousAddrErr
 
 // accountCreate creates a new account into the keystore defined by the CLI flags.
 func accountCreate(ctx *cli.Context) error {
-	cfg := gethConfig{Node: defaultNodeConfig()}
+	cfg := aegonConfig{Node: defaultNodeConfig()}
 	// Load config file.
 	if file := ctx.String(configFileFlag.Name); file != "" {
 		if err := loadConfig(file, &cfg); err != nil {

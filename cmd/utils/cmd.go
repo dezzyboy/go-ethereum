@@ -371,13 +371,13 @@ func ExportPreimages(db ethdb.Database, fn string) error {
 // should be bumped.
 // If the importer sees a higher version, it should reject the import.
 type exportHeader struct {
-	Magic    string // Always set to 'gethdbdump' for disambiguation
+	Magic    string // Always set to 'aegondbdump' for disambiguation
 	Version  uint64
 	Kind     string
 	UnixTime uint64
 }
 
-const exportMagic = "gethdbdump"
+const exportMagic = "aegondbdump"
 const (
 	OpBatchAdd = 0
 	OpBatchDel = 1

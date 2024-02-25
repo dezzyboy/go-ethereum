@@ -67,7 +67,7 @@ import (
 
 var (
 	// Files that end up in the aegon*.zip archive.
-	gethArchiveFiles = []string{
+	aegonArchiveFiles = []string{
 		"COPYING",
 		executablePath("aegon"),
 	}
@@ -379,7 +379,7 @@ func doArchive(cmdline []string) {
 		atype   = flag.String("type", "zip", "Type of archive to write (zip|tar)")
 		signer  = flag.String("signer", "", `Environment variable holding the signing key (e.g. LINUX_SIGNING_KEY)`)
 		signify = flag.String("signify", "", `Environment variable holding the signify key (e.g. LINUX_SIGNIFY_KEY)`)
-		upload  = flag.String("upload", "", `Destination to upload the archives (usually "gethstore/builds")`)
+		upload  = flag.String("upload", "", `Destination to upload the archives (usually "aegonstore/builds")`)
 		ext     string
 	)
 	flag.CommandLine.Parse(cmdline)
@@ -394,12 +394,12 @@ func doArchive(cmdline []string) {
 
 	var (
 		env      = build.Env()
-		basegeth = archiveBasename(*arch, params.ArchiveVersion(env.Commit))
-		aegon    = "aegon-" + basegeth + ext
-		alltools = "aegon-alltools-" + basegeth + ext
+		baseaegon = archiveBasename(*arch, params.ArchiveVersion(env.Commit))
+		aegon    = "aegon-" + baseaegon + ext
+		alltools = "aegon-alltools-" + baseaegon + ext
 	)
 	maybeSkipArchive(env)
-	if err := build.WriteArchive(aegon, gethArchiveFiles); err != nil {
+	if err := build.WriteArchive(aegon, aegonArchiveFiles); err != nil {
 		log.Fatal(err)
 	}
 	if err := build.WriteArchive(alltools, allToolsArchiveFiles); err != nil {
@@ -528,7 +528,7 @@ func doDocker(cmdline []string) {
 
 		// Tag and upload the images to Docker Hub
 		for _, tag := range tags {
-			gethImage := fmt.Sprintf("%s:%s-%s", *upload, tag, runtime.GOARCH)
+			aegonImage := fmt.Sprintf("%s:%s-%s", *upload, tag, runtime.GOARCH)
 			toolImage := fmt.Sprintf("%s:alltools-%s-%s", *upload, tag, runtime.GOARCH)
 
 			// If the image already exists (non version tag), check the build
@@ -536,7 +536,7 @@ func doDocker(cmdline []string) {
 			// are running. This is still a tiny bit racey if two published are
 			// done at the same time, but that's extremely unlikely even on the
 			// master branch.
-			for _, img := range []string{gethImage, toolImage} {
+			for _, img := range []string{aegonImage, toolImage} {
 				if exec.Command("docker", "pull", img).Run() != nil {
 					continue // Generally the only failure is a missing image, which is good
 				}
@@ -562,9 +562,9 @@ func doDocker(cmdline []string) {
 					}
 				}
 			}
-			build.MustRunCommand("docker", "image", "tag", fmt.Sprintf("%s:TAG", *upload), gethImage)
+			build.MustRunCommand("docker", "image", "tag", fmt.Sprintf("%s:TAG", *upload), aegonImage)
 			build.MustRunCommand("docker", "image", "tag", fmt.Sprintf("%s:alltools-TAG", *upload), toolImage)
-			build.MustRunCommand("docker", "push", gethImage)
+			build.MustRunCommand("docker", "push", aegonImage)
 			build.MustRunCommand("docker", "push", toolImage)
 		}
 	}
@@ -578,10 +578,10 @@ func doDocker(cmdline []string) {
 
 			for _, tag := range tags {
 				for _, arch := range strings.Split(*manifest, ",") {
-					gethImage := fmt.Sprintf("%s:%s-%s", *upload, tag, arch)
+					aegonImage := fmt.Sprintf("%s:%s-%s", *upload, tag, arch)
 					toolImage := fmt.Sprintf("%s:alltools-%s-%s", *upload, tag, arch)
 
-					for _, img := range []string{gethImage, toolImage} {
+					for _, img := range []string{aegonImage, toolImage} {
 						if out, err := exec.Command("docker", "pull", img).CombinedOutput(); err != nil {
 							log.Printf("Required image %s unavailable: %v\nOutput: %s", img, err, out)
 							mismatch = true
@@ -625,14 +625,14 @@ func doDocker(cmdline []string) {
 		}
 		// Assemble and push the Geth manifest image
 		for _, tag := range tags {
-			gethImage := fmt.Sprintf("%s:%s", *upload, tag)
+			aegonImage := fmt.Sprintf("%s:%s", *upload, tag)
 
-			var gethSubImages []string
+			var aegonSubImages []string
 			for _, arch := range strings.Split(*manifest, ",") {
-				gethSubImages = append(gethSubImages, gethImage+"-"+arch)
+				aegonSubImages = append(aegonSubImages, aegonImage+"-"+arch)
 			}
-			build.MustRunCommand("docker", append([]string{"manifest", "create", gethImage}, gethSubImages...)...)
-			build.MustRunCommand("docker", "manifest", "push", gethImage)
+			build.MustRunCommand("docker", append([]string{"manifest", "create", aegonImage}, aegonSubImages...)...)
+			build.MustRunCommand("docker", "manifest", "push", aegonImage)
 		}
 		// Assemble and push the alltools manifest image
 		for _, tag := range tags {
@@ -932,7 +932,7 @@ func doWindowsInstaller(cmdline []string) {
 		arch    = flag.String("arch", runtime.GOARCH, "Architecture for cross build packaging")
 		signer  = flag.String("signer", "", `Environment variable holding the signing key (e.g. WINDOWS_SIGNING_KEY)`)
 		signify = flag.String("signify key", "", `Environment variable holding the signify signing key (e.g. WINDOWS_SIGNIFY_KEY)`)
-		upload  = flag.String("upload", "", `Destination to upload the archives (usually "gethstore/builds")`)
+		upload  = flag.String("upload", "", `Destination to upload the archives (usually "aegonstore/builds")`)
 		workdir = flag.String("workdir", "", `Output directory for packages (uses temp dir if unset)`)
 	)
 	flag.CommandLine.Parse(cmdline)
@@ -944,7 +944,7 @@ func doWindowsInstaller(cmdline []string) {
 	var (
 		devTools []string
 		allTools []string
-		gethTool string
+		aegonTool string
 	)
 	for _, file := range allToolsArchiveFiles {
 		if file == "COPYING" { // license, copied later
@@ -952,7 +952,7 @@ func doWindowsInstaller(cmdline []string) {
 		}
 		allTools = append(allTools, filepath.Base(file))
 		if filepath.Base(file) == "aegon.exe" {
-			gethTool = file
+			aegonTool = file
 		} else {
 			devTools = append(devTools, file)
 		}
@@ -962,7 +962,7 @@ func doWindowsInstaller(cmdline []string) {
 	// first section contains the aegon binary, second section holds the dev tools.
 	templateData := map[string]interface{}{
 		"License":  "COPYING",
-		"Geth":     gethTool,
+		"Geth":     aegonTool,
 		"DevTools": devTools,
 	}
 	build.Render("build/nsis.aegon.nsi", filepath.Join(*workdir, "aegon.nsi"), 0644, nil)
@@ -1006,7 +1006,7 @@ func doAndroidArchive(cmdline []string) {
 		signer  = flag.String("signer", "", `Environment variable holding the signing key (e.g. ANDROID_SIGNING_KEY)`)
 		signify = flag.String("signify", "", `Environment variable holding the signify signing key (e.g. ANDROID_SIGNIFY_KEY)`)
 		deploy  = flag.String("deploy", "", `Destination to deploy the archive (usually "https://oss.sonatype.org")`)
-		upload  = flag.String("upload", "", `Destination to upload the archive (usually "gethstore/builds")`)
+		upload  = flag.String("upload", "", `Destination to upload the archive (usually "aegonstore/builds")`)
 	)
 	flag.CommandLine.Parse(cmdline)
 	env := build.Env()
@@ -1142,7 +1142,7 @@ func doXCodeFramework(cmdline []string) {
 		signer  = flag.String("signer", "", `Environment variable holding the signing key (e.g. IOS_SIGNING_KEY)`)
 		signify = flag.String("signify", "", `Environment variable holding the signify signing key (e.g. IOS_SIGNIFY_KEY)`)
 		deploy  = flag.String("deploy", "", `Destination to deploy the archive (usually "trunk")`)
-		upload  = flag.String("upload", "", `Destination to upload the archives (usually "gethstore/builds")`)
+		upload  = flag.String("upload", "", `Destination to upload the archives (usually "aegonstore/builds")`)
 	)
 	flag.CommandLine.Parse(cmdline)
 	env := build.Env()
@@ -1232,7 +1232,7 @@ func newPodMetadata(env build.Environment, archive string) podMetadata {
 
 func doPurge(cmdline []string) {
 	var (
-		store = flag.String("store", "", `Destination from where to purge archives (usually "gethstore/builds")`)
+		store = flag.String("store", "", `Destination from where to purge archives (usually "aegonstore/builds")`)
 		limit = flag.Int("days", 30, `Age threshold above which to delete unstable archives`)
 	)
 	flag.CommandLine.Parse(cmdline)

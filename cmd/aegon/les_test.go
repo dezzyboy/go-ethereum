@@ -31,25 +31,25 @@ import (
 	"github.com/ethereum/go-ethereum/rpc"
 )
 
-type gethrpc struct {
+type aegonrpc struct {
 	name     string
 	rpc      *rpc.Client
-	aegon    *testgeth
+	aegon    *testaegon
 	nodeInfo *p2p.NodeInfo
 }
 
-func (g *gethrpc) killAndWait() {
+func (g *aegonrpc) killAndWait() {
 	g.aegon.Kill()
 	g.aegon.WaitExit()
 }
 
-func (g *gethrpc) callRPC(result interface{}, method string, args ...interface{}) {
+func (g *aegonrpc) callRPC(result interface{}, method string, args ...interface{}) {
 	if err := g.rpc.Call(&result, method, args...); err != nil {
 		g.aegon.Fatalf("callRPC %v: %v", method, err)
 	}
 }
 
-func (g *gethrpc) addPeer(peer *gethrpc) {
+func (g *aegonrpc) addPeer(peer *aegonrpc) {
 	g.aegon.Logf("%v.addPeer(%v)", g.name, peer.name)
 	enode := peer.getNodeInfo().Enode
 	peerCh := make(chan *p2p.PeerEvent)
@@ -72,7 +72,7 @@ func (g *gethrpc) addPeer(peer *gethrpc) {
 }
 
 // Use this function instead of `g.nodeInfo` directly
-func (g *gethrpc) getNodeInfo() *p2p.NodeInfo {
+func (g *aegonrpc) getNodeInfo() *p2p.NodeInfo {
 	if g.nodeInfo != nil {
 		return g.nodeInfo
 	}
@@ -109,12 +109,12 @@ func ipcEndpoint(ipcPath, datadir string) string {
 // the pipe filename instead of folder.
 var nextIPC = uint32(0)
 
-func startGethWithIpc(t *testing.T, name string, args ...string) *gethrpc {
+func startGethWithIpc(t *testing.T, name string, args ...string) *aegonrpc {
 	ipcName := fmt.Sprintf("aegon-%d.ipc", atomic.AddUint32(&nextIPC, 1))
 	args = append([]string{"--networkid=42", "--port=0", "--authrpc.port", "0", "--ipcpath", ipcName}, args...)
 	t.Logf("Starting %v with rpc: %v", name, args)
 
-	g := &gethrpc{
+	g := &aegonrpc{
 		name:  name,
 		aegon: runGeth(t, args...),
 	}
@@ -141,7 +141,7 @@ func initGeth(t *testing.T) string {
 	return datadir
 }
 
-func startLightServer(t *testing.T) *gethrpc {
+func startLightServer(t *testing.T) *aegonrpc {
 	datadir := initGeth(t)
 	t.Logf("Importing keys to aegon")
 	runGeth(t, "account", "import", "--datadir", datadir, "--password", "./testdata/password.txt", "--lightkdf", "./testdata/key.prv").WaitExit()
@@ -150,7 +150,7 @@ func startLightServer(t *testing.T) *gethrpc {
 	return server
 }
 
-func startClient(t *testing.T, name string) *gethrpc {
+func startClient(t *testing.T, name string) *aegonrpc {
 	datadir := initGeth(t)
 	return startGethWithIpc(t, name, "--datadir", datadir, "--nodiscover", "--syncmode=light", "--nat=extip:127.0.0.1", "--verbosity=4")
 }
@@ -185,7 +185,7 @@ func TestPriorityClient(t *testing.T) {
 		t.Errorf("Expected: # of prio peers == 1, actual: %v", len(peers))
 	}
 
-	nodes := map[string]*gethrpc{
+	nodes := map[string]*aegonrpc{
 		lightServer.getNodeInfo().ID: lightServer,
 		freeCli.getNodeInfo().ID:     freeCli,
 		prioCli.getNodeInfo().ID:     prioCli,

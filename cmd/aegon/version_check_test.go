@@ -136,7 +136,7 @@ func TestMatching(t *testing.T) {
 }
 
 func TestGethPubKeysParseable(t *testing.T) {
-	for _, pubkey := range gethPubKeys {
+	for _, pubkey := range aegonPubKeys {
 		_, err := minisign.NewPublicKey(pubkey)
 		if err != nil {
 			t.Errorf("Should be parseable")
@@ -153,9 +153,9 @@ func TestKeyID(t *testing.T) {
 		args args
 		want string
 	}{
-		{"@holiman key", args{id: extractKeyId(gethPubKeys[0])}, "FB1D084D39BAEC24"},
-		{"second key", args{id: extractKeyId(gethPubKeys[1])}, "138B1CA303E51687"},
-		{"third key", args{id: extractKeyId(gethPubKeys[2])}, "FD9813B2D2098484"},
+		{"@holiman key", args{id: extractKeyId(aegonPubKeys[0])}, "FB1D084D39BAEC24"},
+		{"second key", args{id: extractKeyId(aegonPubKeys[1])}, "138B1CA303E51687"},
+		{"third key", args{id: extractKeyId(aegonPubKeys[2])}, "FD9813B2D2098484"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

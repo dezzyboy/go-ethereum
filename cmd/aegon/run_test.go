@@ -30,7 +30,7 @@ import (
 	"github.com/ethereum/go-ethereum/rpc"
 )
 
-type testgeth struct {
+type testaegon struct {
 	*cmdtest.TestCmd
 
 	// template variables for expect
@@ -59,8 +59,8 @@ func TestMain(m *testing.M) {
 
 // spawns aegon with the given command line args. If the args don't set --datadir, the
 // child g gets a temporary data directory.
-func runGeth(t *testing.T, args ...string) *testgeth {
-	tt := &testgeth{}
+func runGeth(t *testing.T, args ...string) *testaegon {
+	tt := &testaegon{}
 	tt.TestCmd = cmdtest.NewTestCmd(t, tt)
 	for i, arg := range args {
 		switch arg {

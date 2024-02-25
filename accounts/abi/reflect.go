@@ -176,7 +176,7 @@ func setStruct(dst, src reflect.Value) error {
 // mapArgNamesToStructFields maps a slice of argument names to struct fields.
 // first round: for each Exportable field that contains a `abi:""` tag
 //
-//	and this field name exists in the given argument name list, pair them together.
+//	and this field name exists in the given argument name list, pair them toaegoner.
 //
 // second round: for each argument name that has not been already linked,
 //

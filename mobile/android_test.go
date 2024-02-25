@@ -156,7 +156,7 @@ public class AndroidTest extends InstrumentationTestCase {
 //
 // This method has been adapted from golang.org/x/mobile/bind/java/seq_test.go/runTest
 func TestAndroid(t *testing.T) {
-	// Skip tests on Windows altogether
+	// Skip tests on Windows altoaegoner
 	if runtime.GOOS == "windows" {
 		t.Skip("cannot test Android bindings on Windows, skipping")
 	}
@@ -197,7 +197,7 @@ func TestAndroid(t *testing.T) {
 	defer os.Chdir(pwd)
 
 	// Create the skeleton of the Android project
-	for _, dir := range []string{"src/main", "src/androidTest/java/org/ethereum/gethtest", "libs"} {
+	for _, dir := range []string{"src/main", "src/androidTest/java/org/ethereum/aegontest", "libs"} {
 		err = os.MkdirAll(dir, os.ModePerm)
 		if err != nil {
 			t.Fatal(err)
@@ -211,7 +211,7 @@ func TestAndroid(t *testing.T) {
 	}
 	cp.CopyFile(filepath.Join("libs", "aegon.aar"), "aegon.aar")
 
-	if err = os.WriteFile(filepath.Join("src", "androidTest", "java", "org", "ethereum", "gethtest", "AndroidTest.java"), []byte(androidTestClass), os.ModePerm); err != nil {
+	if err = os.WriteFile(filepath.Join("src", "androidTest", "java", "org", "ethereum", "aegontest", "AndroidTest.java"), []byte(androidTestClass), os.ModePerm); err != nil {
 		t.Fatalf("failed to write Android test class: %v", err)
 	}
 	// Finish creating the project and run the tests via gradle
@@ -229,7 +229,7 @@ func TestAndroid(t *testing.T) {
 
 const androidManifest = `<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.ethereum.gethtest"
+          package="org.ethereum.aegontest"
 	  android:versionCode="1"
 	  android:versionName="1.0">
 

@@ -39,7 +39,7 @@ const (
 // spawns aegon with the given command line args, using a set of flags to minimise
 // memory and disk IO. If the args don't set --datadir, the
 // child g gets a temporary data directory.
-func runMinimalGeth(t *testing.T, args ...string) *testgeth {
+func runMinimalGeth(t *testing.T, args ...string) *testaegon {
 	// --ropsten to make the 'writing genesis to disk' faster (no accounts)
 	// --networkid=1337 to avoid cache bump
 	// --syncmode=full to avoid allocating fast sync bloom
@@ -61,7 +61,7 @@ func TestConsoleWelcome(t *testing.T) {
 	aegon.SetTemplateFunc("goos", func() string { return runtime.GOOS })
 	aegon.SetTemplateFunc("goarch", func() string { return runtime.GOARCH })
 	aegon.SetTemplateFunc("gover", runtime.Version)
-	aegon.SetTemplateFunc("gethver", func() string { return params.VersionWithCommit("", "") })
+	aegon.SetTemplateFunc("aegonver", func() string { return params.VersionWithCommit("", "") })
 	aegon.SetTemplateFunc("niltime", func() string {
 		return time.Unix(0, 0).Format("Mon Jan 02 2006 15:04:05 GMT-0700 (MST)")
 	})
@@ -71,7 +71,7 @@ func TestConsoleWelcome(t *testing.T) {
 	aegon.Expect(`
 Welcome to the Geth JavaScript console!
 
-instance: Geth/v{{gethver}}/{{goos}}-{{goarch}}/{{gover}}
+instance: Geth/v{{aegonver}}/{{goos}}-{{goarch}}/{{gover}}
 coinbase: {{.Etherbase}}
 at block: 0 ({{niltime}})
  datadir: {{.Datadir}}
@@ -121,7 +121,7 @@ func TestAttachWelcome(t *testing.T) {
 	aegon.ExpectExit()
 }
 
-func testAttachWelcome(t *testing.T, aegon *testgeth, endpoint, apis string) {
+func testAttachWelcome(t *testing.T, aegon *testaegon, endpoint, apis string) {
 	// Attach to a running aegon note and terminate immediately
 	attach := runGeth(t, "attach", endpoint)
 	defer attach.ExpectExit()
@@ -131,7 +131,7 @@ func testAttachWelcome(t *testing.T, aegon *testgeth, endpoint, apis string) {
 	attach.SetTemplateFunc("goos", func() string { return runtime.GOOS })
 	attach.SetTemplateFunc("goarch", func() string { return runtime.GOARCH })
 	attach.SetTemplateFunc("gover", runtime.Version)
-	attach.SetTemplateFunc("gethver", func() string { return params.VersionWithCommit("", "") })
+	attach.SetTemplateFunc("aegonver", func() string { return params.VersionWithCommit("", "") })
 	attach.SetTemplateFunc("etherbase", func() string { return aegon.Etherbase })
 	attach.SetTemplateFunc("niltime", func() string {
 		return time.Unix(0, 0).Format("Mon Jan 02 2006 15:04:05 GMT-0700 (MST)")
@@ -144,7 +144,7 @@ func testAttachWelcome(t *testing.T, aegon *testgeth, endpoint, apis string) {
 	attach.Expect(`
 Welcome to the Geth JavaScript console!
 
-instance: Geth/v{{gethver}}/{{goos}}-{{goarch}}/{{gover}}
+instance: Geth/v{{aegonver}}/{{goos}}-{{goarch}}/{{gover}}
 coinbase: {{etherbase}}
 at block: 0 ({{niltime}}){{if ipc}}
  datadir: {{datadir}}{{end}}
