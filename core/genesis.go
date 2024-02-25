@@ -480,13 +480,38 @@ func DefaultRinkebyGenesisBlock() *Genesis {
 
 // DefaultStormbornGenesisBlock returns the Stormborn network genesis block.
 func DefaultStormbornGenesisBlock() *Genesis {
+	balance, ok := big.NewInt(0).SetString("100000000000000000000000000", 10)
+	if !ok {
+		panic("failed to set balance")
+	}
+
 	return &Genesis{
-		Config:     params.StormbornChainConfig,
-		Timestamp:  0,
-		ExtraData:  hexutil.MustDecode("0x"),
-		GasLimit:   3141592,
+		Config: &params.ChainConfig{
+			ChainID:             big.NewInt(9742),
+			HomesteadBlock:      big.NewInt(0),
+			EIP150Block:         big.NewInt(0),
+			EIP155Block:         big.NewInt(0),
+			EIP158Block:         big.NewInt(0),
+			ByzantiumBlock:      big.NewInt(0),
+			ConstantinopleBlock: big.NewInt(0),
+			PetersburgBlock:     big.NewInt(0),
+			IstanbulBlock:       big.NewInt(0),
+			BerlinBlock:         big.NewInt(0),
+			LondonBlock:         big.NewInt(0),
+		},
+		Alloc: GenesisAlloc{
+			common.HexToAddress("0x307E330845bb81CE690010609e58943f32B302c4"): {
+				Balance: balance,
+			},
+		},
+		Coinbase:   common.HexToAddress("0x0000000000000000000000000000000000000000"),
 		Difficulty: big.NewInt(131072),
-		Alloc:      decodePrealloc(stormbornAllocData),
+		ExtraData:  []byte{},
+		GasLimit:   3141592,
+		Nonce:      66, // Use the actual nonce value for your network
+		Mixhash:    common.HexToHash("0x0000000000000000000000000000000000000000000000000000000000000000"),
+		ParentHash: common.HexToHash("0x0000000000000000000000000000000000000000000000000000000000000000"),
+		Timestamp:  0,
 	}
 }
 
