@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of go-ethereum.
 //
 // go-ethereum is free software: you can redistribute it and/or modify
@@ -37,8 +39,8 @@ type testgeth struct {
 }
 
 func init() {
-	// Run the app if we've been exec'd as "geth-test" in runGeth.
-	reexec.Register("geth-test", func() {
+	// Run the app if we've been exec'd as "aegon-test" in runGeth.
+	reexec.Register("aegon-test", func() {
 		if err := app.Run(os.Args); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
@@ -55,7 +57,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-// spawns geth with the given command line args. If the args don't set --datadir, the
+// spawns aegon with the given command line args. If the args don't set --datadir, the
 // child g gets a temporary data directory.
 func runGeth(t *testing.T, args ...string) *testgeth {
 	tt := &testgeth{}
@@ -78,9 +80,9 @@ func runGeth(t *testing.T, args ...string) *testgeth {
 		args = append([]string{"--datadir", tt.Datadir}, args...)
 	}
 
-	// Boot "geth". This actually runs the test binary but the TestMain
+	// Boot "aegon". This actually runs the test binary but the TestMain
 	// function will prevent any tests from running.
-	tt.Run("geth-test", args...)
+	tt.Run("aegon-test", args...)
 
 	return tt
 }

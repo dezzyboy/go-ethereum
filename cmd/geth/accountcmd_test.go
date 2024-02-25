@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of go-ethereum.
 //
 // go-ethereum is free software: you can redistribute it and/or modify
@@ -43,8 +45,8 @@ func tmpDatadirWithKeystore(t *testing.T) string {
 }
 
 func TestAccountListEmpty(t *testing.T) {
-	geth := runGeth(t, "account", "list")
-	geth.ExpectExit()
+	aegon := runGeth(t, "account", "list")
+	aegon.ExpectExit()
 }
 
 func TestAccountList(t *testing.T) {
@@ -62,21 +64,21 @@ Account #2: {289d485d9771714cce91d3393d764e1311907acc} keystore://{{.Datadir}}\k
 `
 	}
 	{
-		geth := runGeth(t, "account", "list", "--datadir", datadir)
-		geth.Expect(want)
-		geth.ExpectExit()
+		aegon := runGeth(t, "account", "list", "--datadir", datadir)
+		aegon.Expect(want)
+		aegon.ExpectExit()
 	}
 	{
-		geth := runGeth(t, "--datadir", datadir, "account", "list")
-		geth.Expect(want)
-		geth.ExpectExit()
+		aegon := runGeth(t, "--datadir", datadir, "account", "list")
+		aegon.Expect(want)
+		aegon.ExpectExit()
 	}
 }
 
 func TestAccountNew(t *testing.T) {
-	geth := runGeth(t, "account", "new", "--lightkdf")
-	defer geth.ExpectExit()
-	geth.Expect(`
+	aegon := runGeth(t, "account", "new", "--lightkdf")
+	defer aegon.ExpectExit()
+	aegon.Expect(`
 Your new account is locked with a password. Please give a password. Do not forget this password.
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "foobar"}}
@@ -84,7 +86,7 @@ Repeat password: {{.InputLine "foobar"}}
 
 Your new key was generated
 `)
-	geth.ExpectRegexp(`
+	aegon.ExpectRegexp(`
 Public address of the key:   0x[0-9a-fA-F]{40}
 Path of the secret key file: .*UTC--.+--[0-9a-f]{40}
 
@@ -118,15 +120,15 @@ func TestAccountImport(t *testing.T) {
 }
 
 func TestAccountHelp(t *testing.T) {
-	geth := runGeth(t, "account", "-h")
-	geth.WaitExit()
-	if have, want := geth.ExitStatus(), 0; have != want {
+	aegon := runGeth(t, "account", "-h")
+	aegon.WaitExit()
+	if have, want := aegon.ExitStatus(), 0; have != want {
 		t.Errorf("exit error, have %d want %d", have, want)
 	}
 
-	geth = runGeth(t, "account", "import", "-h")
-	geth.WaitExit()
-	if have, want := geth.ExitStatus(), 0; have != want {
+	aegon = runGeth(t, "account", "import", "-h")
+	aegon.WaitExit()
+	if have, want := aegon.ExitStatus(), 0; have != want {
 		t.Errorf("exit error, have %d want %d", have, want)
 	}
 }
@@ -141,15 +143,15 @@ func importAccountWithExpect(t *testing.T, key string, expected string) {
 	if err := os.WriteFile(passwordFile, []byte("foobar"), 0600); err != nil {
 		t.Error(err)
 	}
-	geth := runGeth(t, "--lightkdf", "account", "import", "-password", passwordFile, keyfile)
-	defer geth.ExpectExit()
-	geth.Expect(expected)
+	aegon := runGeth(t, "--lightkdf", "account", "import", "-password", passwordFile, keyfile)
+	defer aegon.ExpectExit()
+	aegon.Expect(expected)
 }
 
 func TestAccountNewBadRepeat(t *testing.T) {
-	geth := runGeth(t, "account", "new", "--lightkdf")
-	defer geth.ExpectExit()
-	geth.Expect(`
+	aegon := runGeth(t, "account", "new", "--lightkdf")
+	defer aegon.ExpectExit()
+	aegon.Expect(`
 Your new account is locked with a password. Please give a password. Do not forget this password.
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "something"}}
@@ -160,11 +162,11 @@ Fatal: Passwords do not match
 
 func TestAccountUpdate(t *testing.T) {
 	datadir := tmpDatadirWithKeystore(t)
-	geth := runGeth(t, "account", "update",
+	aegon := runGeth(t, "account", "update",
 		"--datadir", datadir, "--lightkdf",
 		"f466859ead1932d743d622cb74fc058882e8648a")
-	defer geth.ExpectExit()
-	geth.Expect(`
+	defer aegon.ExpectExit()
+	aegon.Expect(`
 Unlocking account f466859ead1932d743d622cb74fc058882e8648a | Attempt 1/3
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "foobar"}}
@@ -175,24 +177,24 @@ Repeat password: {{.InputLine "foobar2"}}
 }
 
 func TestWalletImport(t *testing.T) {
-	geth := runGeth(t, "wallet", "import", "--lightkdf", "testdata/guswallet.json")
-	defer geth.ExpectExit()
-	geth.Expect(`
+	aegon := runGeth(t, "wallet", "import", "--lightkdf", "testdata/guswallet.json")
+	defer aegon.ExpectExit()
+	aegon.Expect(`
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "foo"}}
 Address: {d4584b5f6229b7be90727b0fc8c6b91bb427821f}
 `)
 
-	files, err := os.ReadDir(filepath.Join(geth.Datadir, "keystore"))
+	files, err := os.ReadDir(filepath.Join(aegon.Datadir, "keystore"))
 	if len(files) != 1 {
 		t.Errorf("expected one key file in keystore directory, found %d files (error: %v)", len(files), err)
 	}
 }
 
 func TestWalletImportBadPassword(t *testing.T) {
-	geth := runGeth(t, "wallet", "import", "--lightkdf", "testdata/guswallet.json")
-	defer geth.ExpectExit()
-	geth.Expect(`
+	aegon := runGeth(t, "wallet", "import", "--lightkdf", "testdata/guswallet.json")
+	defer aegon.ExpectExit()
+	aegon.Expect(`
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "wrong"}}
 Fatal: could not decrypt key with given password
@@ -200,33 +202,33 @@ Fatal: could not decrypt key with given password
 }
 
 func TestUnlockFlag(t *testing.T) {
-	geth := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
+	aegon := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
 		"--unlock", "f466859ead1932d743d622cb74fc058882e8648a", "console", "--exec", "loadScript('testdata/empty.js')")
-	geth.Expect(`
+	aegon.Expect(`
 Unlocking account f466859ead1932d743d622cb74fc058882e8648a | Attempt 1/3
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "foobar"}}
 undefined
 `)
-	geth.ExpectExit()
+	aegon.ExpectExit()
 
 	wantMessages := []string{
 		"Unlocked account",
 		"=0xf466859eAD1932D743d622CB74FC058882E8648A",
 	}
 	for _, m := range wantMessages {
-		if !strings.Contains(geth.StderrText(), m) {
+		if !strings.Contains(aegon.StderrText(), m) {
 			t.Errorf("stderr text does not contain %q", m)
 		}
 	}
 }
 
 func TestUnlockFlagWrongPassword(t *testing.T) {
-	geth := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
+	aegon := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
 		"--unlock", "f466859ead1932d743d622cb74fc058882e8648a", "console", "--exec", "loadScript('testdata/empty.js')")
 
-	defer geth.ExpectExit()
-	geth.Expect(`
+	defer aegon.ExpectExit()
+	aegon.Expect(`
 Unlocking account f466859ead1932d743d622cb74fc058882e8648a | Attempt 1/3
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "wrong1"}}
@@ -240,10 +242,10 @@ Fatal: Failed to unlock account f466859ead1932d743d622cb74fc058882e8648a (could 
 
 // https://github.com/ethereum/go-ethereum/issues/1785
 func TestUnlockFlagMultiIndex(t *testing.T) {
-	geth := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
+	aegon := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
 		"--unlock", "f466859ead1932d743d622cb74fc058882e8648a", "--unlock", "0,2", "console", "--exec", "loadScript('testdata/empty.js')")
 
-	geth.Expect(`
+	aegon.Expect(`
 Unlocking account 0 | Attempt 1/3
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "foobar"}}
@@ -251,7 +253,7 @@ Unlocking account 2 | Attempt 1/3
 Password: {{.InputLine "foobar"}}
 undefined
 `)
-	geth.ExpectExit()
+	aegon.ExpectExit()
 
 	wantMessages := []string{
 		"Unlocked account",
@@ -259,20 +261,20 @@ undefined
 		"=0x289d485D9771714CCe91D3393D764E1311907ACc",
 	}
 	for _, m := range wantMessages {
-		if !strings.Contains(geth.StderrText(), m) {
+		if !strings.Contains(aegon.StderrText(), m) {
 			t.Errorf("stderr text does not contain %q", m)
 		}
 	}
 }
 
 func TestUnlockFlagPasswordFile(t *testing.T) {
-	geth := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
+	aegon := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
 		"--unlock", "f466859ead1932d743d622cb74fc058882e8648a", "--password", "testdata/passwords.txt", "--unlock", "0,2", "console", "--exec", "loadScript('testdata/empty.js')")
 
-	geth.Expect(`
+	aegon.Expect(`
 undefined
 `)
-	geth.ExpectExit()
+	aegon.ExpectExit()
 
 	wantMessages := []string{
 		"Unlocked account",
@@ -280,36 +282,36 @@ undefined
 		"=0x289d485D9771714CCe91D3393D764E1311907ACc",
 	}
 	for _, m := range wantMessages {
-		if !strings.Contains(geth.StderrText(), m) {
+		if !strings.Contains(aegon.StderrText(), m) {
 			t.Errorf("stderr text does not contain %q", m)
 		}
 	}
 }
 
 func TestUnlockFlagPasswordFileWrongPassword(t *testing.T) {
-	geth := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
+	aegon := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
 		"--unlock", "f466859ead1932d743d622cb74fc058882e8648a", "--password",
 		"testdata/wrong-passwords.txt", "--unlock", "0,2")
-	defer geth.ExpectExit()
-	geth.Expect(`
+	defer aegon.ExpectExit()
+	aegon.Expect(`
 Fatal: Failed to unlock account 0 (could not decrypt key with given password)
 `)
 }
 
 func TestUnlockFlagAmbiguous(t *testing.T) {
 	store := filepath.Join("..", "..", "accounts", "keystore", "testdata", "dupes")
-	geth := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
+	aegon := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
 		"--unlock", "f466859ead1932d743d622cb74fc058882e8648a", "--keystore",
 		store, "--unlock", "f466859ead1932d743d622cb74fc058882e8648a",
 		"console", "--exec", "loadScript('testdata/empty.js')")
-	defer geth.ExpectExit()
+	defer aegon.ExpectExit()
 
 	// Helper for the expect template, returns absolute keystore path.
-	geth.SetTemplateFunc("keypath", func(file string) string {
+	aegon.SetTemplateFunc("keypath", func(file string) string {
 		abs, _ := filepath.Abs(filepath.Join(store, file))
 		return abs
 	})
-	geth.Expect(`
+	aegon.Expect(`
 Unlocking account f466859ead1932d743d622cb74fc058882e8648a | Attempt 1/3
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "foobar"}}
@@ -322,14 +324,14 @@ In order to avoid this warning, you need to remove the following duplicate key f
    keystore://{{keypath "2"}}
 undefined
 `)
-	geth.ExpectExit()
+	aegon.ExpectExit()
 
 	wantMessages := []string{
 		"Unlocked account",
 		"=0xf466859eAD1932D743d622CB74FC058882E8648A",
 	}
 	for _, m := range wantMessages {
-		if !strings.Contains(geth.StderrText(), m) {
+		if !strings.Contains(aegon.StderrText(), m) {
 			t.Errorf("stderr text does not contain %q", m)
 		}
 	}
@@ -337,18 +339,18 @@ undefined
 
 func TestUnlockFlagAmbiguousWrongPassword(t *testing.T) {
 	store := filepath.Join("..", "..", "accounts", "keystore", "testdata", "dupes")
-	geth := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
+	aegon := runMinimalGeth(t, "--port", "0", "--ipcdisable", "--datadir", tmpDatadirWithKeystore(t),
 		"--unlock", "f466859ead1932d743d622cb74fc058882e8648a", "--keystore",
 		store, "--unlock", "f466859ead1932d743d622cb74fc058882e8648a")
 
-	defer geth.ExpectExit()
+	defer aegon.ExpectExit()
 
 	// Helper for the expect template, returns absolute keystore path.
-	geth.SetTemplateFunc("keypath", func(file string) string {
+	aegon.SetTemplateFunc("keypath", func(file string) string {
 		abs, _ := filepath.Abs(filepath.Join(store, file))
 		return abs
 	})
-	geth.Expect(`
+	aegon.Expect(`
 Unlocking account f466859ead1932d743d622cb74fc058882e8648a | Attempt 1/3
 !! Unsupported terminal, password will be echoed.
 Password: {{.InputLine "wrong"}}
@@ -358,5 +360,5 @@ Multiple key files exist for address f466859ead1932d743d622cb74fc058882e8648a:
 Testing your password against all of them...
 Fatal: None of the listed files could be unlocked.
 `)
-	geth.ExpectExit()
+	aegon.ExpectExit()
 }

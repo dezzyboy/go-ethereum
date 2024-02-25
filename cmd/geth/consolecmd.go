@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of go-ethereum.
 //
 // go-ethereum is free software: you can redistribute it and/or modify
@@ -39,7 +41,7 @@ var (
 		Description: `
 The Geth console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://geth.ethereum.org/docs/interface/javascript-console.`,
+See https://aegon.ethereum.org/docs/interface/javascript-console.`,
 	}
 
 	attachCommand = &cli.Command{
@@ -51,8 +53,8 @@ See https://geth.ethereum.org/docs/interface/javascript-console.`,
 		Description: `
 The Geth console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://geth.ethereum.org/docs/interface/javascript-console.
-This command allows to open a console on a running geth node.`,
+See https://aegon.ethereum.org/docs/interface/javascript-console.
+This command allows to open a console on a running aegon node.`,
 	}
 
 	javascriptCommand = &cli.Command{
@@ -63,11 +65,11 @@ This command allows to open a console on a running geth node.`,
 		Flags:     flags.Merge(nodeFlags, consoleFlags),
 		Description: `
 The JavaScript VM exposes a node admin interface as well as the Ðapp
-JavaScript API. See https://geth.ethereum.org/docs/interface/javascript-console`,
+JavaScript API. See https://aegon.ethereum.org/docs/interface/javascript-console`,
 	}
 )
 
-// localConsole starts a new geth node, attaching a JavaScript console to it at the
+// localConsole starts a new aegon node, attaching a JavaScript console to it at the
 // same time.
 func localConsole(ctx *cli.Context) error {
 	// Create and start the node based on the CLI flags
@@ -79,7 +81,7 @@ func localConsole(ctx *cli.Context) error {
 	// Attach to the newly started node and create the JavaScript console.
 	client, err := stack.Attach()
 	if err != nil {
-		return fmt.Errorf("Failed to attach to the inproc geth: %v", err)
+		return fmt.Errorf("Failed to attach to the inproc aegon: %v", err)
 	}
 	config := console.Config{
 		DataDir: utils.MakeDataDir(ctx),
@@ -112,7 +114,7 @@ func localConsole(ctx *cli.Context) error {
 	return nil
 }
 
-// remoteConsole will connect to a remote geth instance, attaching a JavaScript
+// remoteConsole will connect to a remote aegon instance, attaching a JavaScript
 // console to it.
 func remoteConsole(ctx *cli.Context) error {
 	if ctx.Args().Len() > 1 {
@@ -127,7 +129,7 @@ func remoteConsole(ctx *cli.Context) error {
 	}
 	client, err := dialRPC(endpoint)
 	if err != nil {
-		utils.Fatalf("Unable to attach to remote geth: %v", err)
+		utils.Fatalf("Unable to attach to remote aegon: %v", err)
 	}
 	config := console.Config{
 		DataDir: utils.MakeDataDir(ctx),
@@ -152,7 +154,7 @@ func remoteConsole(ctx *cli.Context) error {
 	return nil
 }
 
-// ephemeralConsole starts a new geth node, attaches an ephemeral JavaScript
+// ephemeralConsole starts a new aegon node, attaches an ephemeral JavaScript
 // console to it, executes each of the files specified as arguments and tears
 // everything down.
 func ephemeralConsole(ctx *cli.Context) error {
@@ -161,18 +163,18 @@ func ephemeralConsole(ctx *cli.Context) error {
 		b.Write([]byte(fmt.Sprintf("loadScript('%s');", file)))
 	}
 	utils.Fatalf(`The "js" command is deprecated. Please use the following instead:
-geth --exec "%s" console`, b.String())
+aegon --exec "%s" console`, b.String())
 	return nil
 }
 
 // dialRPC returns a RPC client which connects to the given endpoint.
 // The check for empty endpoint implements the defaulting logic
-// for "geth attach" with no argument.
+// for "aegon attach" with no argument.
 func dialRPC(endpoint string) (*rpc.Client, error) {
 	if endpoint == "" {
 		endpoint = node.DefaultIPCEndpoint(clientIdentifier)
 	} else if strings.HasPrefix(endpoint, "rpc:") || strings.HasPrefix(endpoint, "ipc:") {
-		// Backwards compatibility with geth < 1.5 which required
+		// Backwards compatibility with aegon < 1.5 which required
 		// these prefixes.
 		endpoint = endpoint[4:]
 	}

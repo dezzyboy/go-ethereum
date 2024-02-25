@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -1332,7 +1334,7 @@ func (ps *clientPeerSet) close() {
 // serverSet is a special set which contains all connected les servers.
 // Les servers will also be discovered by discovery protocol because they
 // also run the LES protocol. We can't drop them although they are useless
-// for us(server) but for other protocols(e.g. ETH) upon the devp2p they
+// for us(server) but for other protocols(e.g. AEG) upon the devp2p they
 // may be useful.
 type serverSet struct {
 	lock   sync.Mutex

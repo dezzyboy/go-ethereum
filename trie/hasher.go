@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -170,8 +172,8 @@ func (h *hasher) fullnodeToHash(n *fullNode, force bool) node {
 //
 // All node encoding must be done like this:
 //
-//     node.encode(h.encbuf)
-//     enc := h.encodedBytes()
+//	node.encode(h.encbuf)
+//	enc := h.encodedBytes()
 //
 // This convention exists because node.encode can only be inlined/escape-analyzed when
 // called on a concrete receiver type.

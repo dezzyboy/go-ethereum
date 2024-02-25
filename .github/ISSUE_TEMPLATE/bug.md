@@ -8,7 +8,7 @@ assignees: ''
 
 #### System information
 
-Geth version: `geth version`
+Geth version: `aegon version`
 OS & Version: Windows/Linux/OSX
 Commit hash : (if `develop`)
 

@@ -10,17 +10,17 @@ https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/6874
 [![Discord](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/nthXNEv)
 
 Automated builds are available for stable releases and the unstable master branch. Binary
-archives are published at https://geth.ethereum.org/downloads/.
+archives are published at https://aegon.ethereum.org/downloads/.
 
 ## Building the source
 
-For prerequisites and detailed build instructions please read the [Installation Instructions](https://geth.ethereum.org/docs/install-and-build/installing-geth).
+For prerequisites and detailed build instructions please read the [Installation Instructions](https://aegon.ethereum.org/docs/install-and-build/installing-aegon).
 
-Building `geth` requires both a Go (version 1.16 or later) and a C compiler. You can install
+Building `aegon` requires both a Go (version 1.16 or later) and a C compiler. You can install
 them using your favourite package manager. Once the dependencies are installed, run
 
 ```shell
-make geth
+make aegon
 ```
 
 or, to build the full suite of utilities:
@@ -36,21 +36,21 @@ directory.
 
 |    Command    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | :-----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  **`geth`**   | Our main Ethereum CLI client. It is the entry point into the Ethereum network (main-, test- or private net), capable of running as a full node (default), archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Ethereum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `geth --help` and the [CLI page](https://geth.ethereum.org/docs/interface/command-line-options) for command line options.          |
-|   `clef`    | Stand-alone signing tool, which can be used as a backend signer for `geth`.  |
+|  **`aegon`**   | Our main Ethereum CLI client. It is the entry point into the Aegon network (main-, test- or private net), capable of running as a full node (default), archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Aegon network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `aegon --help` and the [CLI page](https://aegon.ethereum.org/docs/interface/command-line-options) for command line options.          |
+|   `clef`    | Stand-alone signing tool, which can be used as a backend signer for `aegon`.  |
 |   `devp2p`    | Utilities to interact with nodes on the networking layer, without running a full blockchain. |
-|   `abigen`    | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://docs.soliditylang.org/en/develop/abi-spec.html) with expanded functionality if the contract bytecode is also available. However, it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://geth.ethereum.org/docs/dapp/native-bindings) page for details. |
+|   `abigen`    | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://docs.soliditylang.org/en/develop/abi-spec.html) with expanded functionality if the contract bytecode is also available. However, it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://aegon.ethereum.org/docs/dapp/native-bindings) page for details. |
 |  `bootnode`   | Stripped down version of our Ethereum client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks.                                                                                                                                                                                                                                                                 |
 |     `evm`     | Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow isolated, fine-grained debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug run`).                                                                                                                                                                                                                                                                     |
 |   `rlpdump`   | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp)) dumps (data encoding used by the Ethereum protocol both network as well as consensus wise) to user-friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`).                                                                                                                                                                                                                                 |
-|   `puppeth`   | a CLI wizard that aids in creating a new Ethereum network.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|   `puppeth`   | a CLI wizard that aids in creating a new Aegon network.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 
-## Running `geth`
+## Running `aegon`
 
 Going through all the possible command line flags is out of scope here (please consult our
-[CLI Wiki page](https://geth.ethereum.org/docs/interface/command-line-options)),
+[CLI Wiki page](https://aegon.ethereum.org/docs/interface/command-line-options)),
 but we've enumerated a few common parameter combos to get you up to speed quickly
-on how you can run your own `geth` instance.
+on how you can run your own `aegon` instance.
 
 ### Hardware Requirements
 
@@ -68,7 +68,7 @@ Recommended:
 * High Performance SSD with at least 1TB free space
 * 25+ MBit/sec download Internet service
 
-### Full node on the main Ethereum network
+### Full node on the main Aegon network
 
 By far the most common scenario is people wanting to simply interact with the Ethereum
 network: create accounts; transfer funds; deploy and interact with contracts. For this
@@ -76,19 +76,19 @@ particular use-case the user doesn't care about years-old historical data, so we
 sync quickly to the current state of the network. To do so:
 
 ```shell
-$ geth console
+$ aegon console
 ```
 
 This command will:
- * Start `geth` in snap sync mode (default, can be changed with the `--syncmode` flag),
+ * Start `aegon` in snap sync mode (default, can be changed with the `--syncmode` flag),
    causing it to download more data in exchange for avoiding processing the entire history
-   of the Ethereum network, which is very CPU intensive.
- * Start up `geth`'s built-in interactive [JavaScript console](https://geth.ethereum.org/docs/interface/javascript-console),
+   of the Aegon network, which is very CPU intensive.
+ * Start up `aegon`'s built-in interactive [JavaScript console](https://aegon.ethereum.org/docs/interface/javascript-console),
    (via the trailing `console` subcommand) through which you can interact using [`web3` methods](https://github.com/ChainSafe/web3.js/blob/0.20.7/DOCUMENTATION.md) 
-   (note: the `web3` version bundled within `geth` is very old, and not up to date with official docs),
-   as well as `geth`'s own [management APIs](https://geth.ethereum.org/docs/rpc/server).
+   (note: the `web3` version bundled within `aegon` is very old, and not up to date with official docs),
+   as well as `aegon`'s own [management APIs](https://aegon.ethereum.org/docs/rpc/server).
    This tool is optional and if you leave it out you can always attach to an already running
-   `geth` instance with `geth attach`.
+   `aegon` instance with `aegon attach`.
 
 ### A Full node on the Görli test network
 
@@ -99,29 +99,29 @@ network, you want to join the **test** network with your node, which is fully eq
 the main network, but with play-Ether only.
 
 ```shell
-$ geth --goerli console
+$ aegon --goerli console
 ```
 
 The `console` subcommand has the exact same meaning as above and they are equally
 useful on the testnet too. Please, see above for their explanations if you've skipped here.
 
-Specifying the `--goerli` flag, however, will reconfigure your `geth` instance a bit:
+Specifying the `--goerli` flag, however, will reconfigure your `aegon` instance a bit:
 
- * Instead of connecting the main Ethereum network, the client will connect to the Görli
+ * Instead of connecting the main Aegon network, the client will connect to the Görli
    test network, which uses different P2P bootnodes, different network IDs and genesis
    states.
- * Instead of using the default data directory (`~/.ethereum` on Linux for example), `geth`
+ * Instead of using the default data directory (`~/.ethereum` on Linux for example), `aegon`
    will nest itself one level deeper into a `goerli` subfolder (`~/.ethereum/goerli` on
    Linux). Note, on OSX and Linux this also means that attaching to a running testnet node
-   requires the use of a custom endpoint since `geth attach` will try to attach to a
+   requires the use of a custom endpoint since `aegon attach` will try to attach to a
    production node endpoint by default, e.g.,
-   `geth attach <datadir>/goerli/geth.ipc`. Windows users are not affected by
+   `aegon attach <datadir>/goerli/aegon.ipc`. Windows users are not affected by
    this.
 
 *Note: Although there are some internal protective measures to prevent transactions from
 crossing over between the main network and test network, you should make sure to always
 use separate accounts for play-money and real-money. Unless you manually move
-accounts, `geth` will by default correctly separate the two networks and will not make any
+accounts, `aegon` will by default correctly separate the two networks and will not make any
 accounts available between them.*
 
 ### Full node on the Rinkeby test network
@@ -130,7 +130,7 @@ Go Ethereum also supports connecting to the older proof-of-authority based test 
 called [*Rinkeby*](https://www.rinkeby.io) which is operated by members of the community.
 
 ```shell
-$ geth --rinkeby console
+$ aegon --rinkeby console
 ```
 
 ### Full node on the Ropsten test network
@@ -141,28 +141,28 @@ it has certain extra overhead and is more susceptible to reorganization attacks 
 network's low difficulty/security.
 
 ```shell
-$ geth --ropsten console
+$ aegon --ropsten console
 ```
 
 *Note: Older Geth configurations store the Ropsten database in the `testnet` subdirectory.*
 
 ### Configuration
 
-As an alternative to passing the numerous flags to the `geth` binary, you can also pass a
+As an alternative to passing the numerous flags to the `aegon` binary, you can also pass a
 configuration file via:
 
 ```shell
-$ geth --config /path/to/your_config.toml
+$ aegon --config /path/to/your_config.toml
 ```
 
 To get an idea how the file should look like you can use the `dumpconfig` subcommand to
 export your existing configuration:
 
 ```shell
-$ geth --your-favourite-flags dumpconfig
+$ aegon --your-favourite-flags dumpconfig
 ```
 
-*Note: This works only with `geth` v1.6.0 and above.*
+*Note: This works only with `aegon` v1.6.0 and above.*
 
 #### Docker quick start
 
@@ -175,25 +175,25 @@ docker run -d --name ethereum-node -v /Users/alice/ethereum:/root \
            ethereum/client-go
 ```
 
-This will start `geth` in snap-sync mode with a DB memory allowance of 1GB just as the
+This will start `aegon` in snap-sync mode with a DB memory allowance of 1GB just as the
 above command does.  It will also create a persistent volume in your home directory for
 saving your blockchain as well as map the default ports. There is also an `alpine` tag
 available for a slim version of the image.
 
 Do not forget `--http.addr 0.0.0.0`, if you want to access RPC from other containers
-and/or hosts. By default, `geth` binds to the local interface and RPC endpoints are not
+and/or hosts. By default, `aegon` binds to the local interface and RPC endpoints are not
 accessible from the outside.
 
-### Programmatically interfacing `geth` nodes
+### Programmatically interfacing `aegon` nodes
 
-As a developer, sooner rather than later you'll want to start interacting with `geth` and the
-Ethereum network via your own programs and not manually through the console. To aid
-this, `geth` has built-in support for a JSON-RPC based APIs ([standard APIs](https://ethereum.github.io/execution-apis/api-documentation/)
-and [`geth` specific APIs](https://geth.ethereum.org/docs/rpc/server)).
+As a developer, sooner rather than later you'll want to start interacting with `aegon` and the
+Aegon network via your own programs and not manually through the console. To aid
+this, `aegon` has built-in support for a JSON-RPC based APIs ([standard APIs](https://ethereum.github.io/execution-apis/api-documentation/)
+and [`aegon` specific APIs](https://aegon.ethereum.org/docs/rpc/server)).
 These can be exposed via HTTP, WebSockets and IPC (UNIX sockets on UNIX based
 platforms, and named pipes on Windows).
 
-The IPC interface is enabled by default and exposes all the APIs supported by `geth`,
+The IPC interface is enabled by default and exposes all the APIs supported by `aegon`,
 whereas the HTTP and WS interfaces need to manually be enabled and only expose a
 subset of APIs due to security reasons. These can be turned on/off and configured as
 you'd expect.
@@ -215,7 +215,7 @@ HTTP based JSON-RPC API options:
   * `--ipcpath` Filename for IPC socket/pipe within the datadir (explicit paths escape it)
 
 You'll need to use your own programming environments' capabilities (libraries, tools, etc) to
-connect via HTTP, WS or IPC to a `geth` node configured with the above flags and you'll
+connect via HTTP, WS or IPC to a `aegon` node configured with the above flags and you'll
 need to speak [JSON-RPC](https://www.jsonrpc.org/specification) on all transports. You
 can reuse the same connection for multiple requests!
 
@@ -279,11 +279,11 @@ the accounts and populate the `alloc` field with their addresses.
 ```
 
 With the genesis state defined in the above JSON file, you'll need to initialize **every**
-`geth` node with it prior to starting it up to ensure all blockchain parameters are correctly
+`aegon` node with it prior to starting it up to ensure all blockchain parameters are correctly
 set:
 
 ```shell
-$ geth init path/to/genesis.json
+$ aegon init path/to/genesis.json
 ```
 
 #### Creating the rendezvous point
@@ -302,19 +302,19 @@ that other nodes can use to connect to it and exchange peer information. Make su
 replace the displayed IP address information (most probably `[::]`) with your externally
 accessible IP to get the actual `enode` URL.
 
-*Note: You could also use a full-fledged `geth` node as a bootnode, but it's the less
+*Note: You could also use a full-fledged `aegon` node as a bootnode, but it's the less
 recommended way.*
 
 #### Starting up your member nodes
 
 With the bootnode operational and externally reachable (you can try
-`telnet <ip> <port>` to ensure it's indeed reachable), start every subsequent `geth`
+`telnet <ip> <port>` to ensure it's indeed reachable), start every subsequent `aegon`
 node pointed to the bootnode for peer discovery via the `--bootnodes` flag. It will
 probably also be desirable to keep the data directory of your private network separated, so
 do also specify a custom `--datadir` flag.
 
 ```shell
-$ geth --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url-from-above>
+$ aegon --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url-from-above>
 ```
 
 *Note: Since your network will be completely cut off from the main and test networks, you'll
@@ -322,7 +322,7 @@ also need to configure a miner to process transactions and create new blocks for
 
 #### Running a private miner
 
-Mining on the public Ethereum network is a complex task as it's only feasible using GPUs,
+Mining on the public Aegon network is a complex task as it's only feasible using GPUs,
 requiring an OpenCL or CUDA enabled `ethminer` instance. For information on such a
 setup, please consult the [EtherMining subreddit](https://www.reddit.com/r/EtherMining/)
 and the [ethminer](https://github.com/ethereum-mining/ethminer) repository.
@@ -330,11 +330,11 @@ and the [ethminer](https://github.com/ethereum-mining/ethminer) repository.
 In a private network setting, however a single CPU miner instance is more than enough for
 practical purposes as it can produce a stable stream of blocks at the correct intervals
 without needing heavy resources (consider running on a single thread, no need for multiple
-ones either). To start a `geth` instance for mining, run it with all your usual flags, extended
+ones either). To start a `aegon` instance for mining, run it with all your usual flags, extended
 by:
 
 ```shell
-$ geth <usual-flags> --mine --miner.threads=1 --miner.etherbase=0x0000000000000000000000000000000000000000
+$ aegon <usual-flags> --mine --miner.threads=1 --miner.etherbase=0x0000000000000000000000000000000000000000
 ```
 
 Which will start mining blocks and transactions on a single CPU thread, crediting all
@@ -364,7 +364,7 @@ Please make sure your contributions adhere to our coding guidelines:
  * Commit messages should be prefixed with the package(s) they modify.
    * E.g. "eth, rpc: make trace configs optional"
 
-Please see the [Developers' Guide](https://geth.ethereum.org/docs/developers/devguide)
+Please see the [Developers' Guide](https://aegon.ethereum.org/docs/developers/devguide)
 for more details on configuring your environment, managing project dependencies, and
 testing procedures.
 

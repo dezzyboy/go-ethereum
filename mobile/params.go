@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -16,7 +18,7 @@
 
 // Contains all the wrappers from the params package.
 
-package geth
+package aegon
 
 import (
 	"encoding/json"
@@ -26,7 +28,7 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 )
 
-// MainnetGenesis returns the JSON spec to use for the main Ethereum network. It
+// MainnetGenesis returns the JSON spec to use for the main Aegon network. It
 // is actually empty since that defaults to the hard coded binary genesis block.
 func MainnetGenesis() string {
 	return ""

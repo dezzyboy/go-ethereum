@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -17,7 +19,7 @@
 // Contains all the wrappers from the accounts package to support client side enode
 // management on mobile platforms.
 
-package geth
+package aegon
 
 import (
 	"errors"
@@ -38,8 +40,8 @@ type Enode struct {
 //
 // For incomplete nodes, the designator must look like one of these
 //
-//    enode://<hex node id>
-//    <hex node id>
+//	enode://<hex node id>
+//	<hex node id>
 //
 // For complete nodes, the node ID is encoded in the username portion
 // of the URL, separated from the host by an @ sign. The hostname can
@@ -52,7 +54,7 @@ type Enode struct {
 // a node with IP address 10.3.58.6, TCP listening port 30303
 // and UDP discovery port 30301.
 //
-//    enode://<hex node id>@10.3.58.6:30303?discport=30301
+//	enode://<hex node id>@10.3.58.6:30303?discport=30301
 func NewEnode(rawurl string) (*Enode, error) {
 	node, err := enode.Parse(enode.ValidSchemes, rawurl)
 	if err != nil {

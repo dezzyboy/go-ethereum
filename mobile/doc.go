@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -14,13 +16,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package geth contains the simplified mobile APIs to go-ethereum.
+// Package aegon contains the simplified mobile APIs to go-ethereum.
 //
 // The scope of this package is *not* to allow writing a custom Ethereum client
 // with pieces plucked from go-ethereum, rather to allow writing native dapps on
 // mobile platforms. Keep this in mind when using or extending this package!
 //
-// API limitations
+// # API limitations
 //
 // Since gomobile cannot bridge arbitrary types between Go and Android/iOS, the
 // exposed APIs need to be manually wrapped into simplified types, with custom
@@ -58,4 +60,4 @@
 // Note, a panic *cannot* cross over language boundaries, instead will result in
 // an undebuggable SEGFAULT in the process. For error handling only ever use error
 // returns, which may be the only or the second return.
-package geth
+package aegon

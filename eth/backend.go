@@ -58,7 +58,7 @@ import (
 	"github.com/ethereum/go-ethereum/rpc"
 )
 
-// Config contains the configuration options of the ETH protocol.
+// Config contains the configuration options of the AEG protocol.
 // Deprecated: use ethconfig.Config instead.
 type Config = ethconfig.Config
 
@@ -289,7 +289,7 @@ func makeExtraData(extra []byte) []byte {
 		// create default extradata
 		extra, _ = rlp.EncodeToBytes([]interface{}{
 			uint(params.VersionMajor<<16 | params.VersionMinor<<8 | params.VersionPatch),
-			"geth",
+			"aegon",
 			runtime.Version(),
 			runtime.GOOS,
 		})

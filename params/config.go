@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -25,7 +27,7 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
-// Genesis hashes to enforce below configs on.
+// Genesis hashes toH enforce below configs on.
 var (
 	MainnetGenesisHash = common.HexToHash("0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3")
 	RopstenGenesisHash = common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d")
@@ -106,7 +108,7 @@ var (
 
 	// RopstenChainConfig contains the chain parameters to run a node on the Ropsten test network.
 	RopstenChainConfig = &ChainConfig{
-		ChainID:                       big.NewInt(3),
+		ChainID:                       big.NewInt(9742),
 		HomesteadBlock:                big.NewInt(0),
 		DAOForkBlock:                  nil,
 		DAOForkSupport:                true,
@@ -114,14 +116,14 @@ var (
 		EIP150Hash:                    common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d"),
 		EIP155Block:                   big.NewInt(10),
 		EIP158Block:                   big.NewInt(10),
-		ByzantiumBlock:                big.NewInt(1_700_000),
-		ConstantinopleBlock:           big.NewInt(4_230_000),
-		PetersburgBlock:               big.NewInt(4_939_394),
-		IstanbulBlock:                 big.NewInt(6_485_846),
-		MuirGlacierBlock:              big.NewInt(7_117_117),
-		BerlinBlock:                   big.NewInt(9_812_189),
-		LondonBlock:                   big.NewInt(10_499_401),
-		ChainID_ALT:                   big.NewInt(3),
+		ByzantiumBlock:                big.NewInt(0),
+		ConstantinopleBlock:           big.NewInt(0),
+		PetersburgBlock:               big.NewInt(0),
+		IstanbulBlock:                 big.NewInt(0),
+		MuirGlacierBlock:              big.NewInt(0),
+		BerlinBlock:                   big.NewInt(0),
+		LondonBlock:                   big.NewInt(0),
+		ChainID_ALT:                   big.NewInt(9742),
 		TerminalTotalDifficulty:       new(big.Int).SetUint64(50_000_000_000_000_000),
 		TerminalTotalDifficultyPassed: true,
 		Ethash:                        new(EthashConfig),
@@ -609,7 +611,7 @@ func (c *ChainConfig) CheckCompatible(newcfg *ChainConfig, height uint64) *Confi
 	return lasterr
 }
 
-// CheckConfigForkOrder checks that we don't "skip" any forks, geth isn't pluggable enough
+// CheckConfigForkOrder checks that we don't "skip" any forks, aegon isn't pluggable enough
 // to guarantee that forks can be implemented in a different order than on official networks
 func (c *ChainConfig) CheckConfigForkOrder() error {
 	type fork struct {

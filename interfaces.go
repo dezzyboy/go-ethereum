@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -96,13 +98,13 @@ type ChainStateReader interface {
 }
 
 // SyncProgress gives progress indications when the node is synchronising with
-// the Ethereum network.
+// the Aegon network.
 type SyncProgress struct {
 	StartingBlock uint64 // Block number where sync began
 	CurrentBlock  uint64 // Current block number where sync is at
 	HighestBlock  uint64 // Highest alleged block number in the chain
 
-	// "fast sync" fields. These used to be sent by geth, but are no longer used
+	// "fast sync" fields. These used to be sent by aegon, but are no longer used
 	// since version v1.10.
 	PulledStates uint64 // Number of state trie entries already downloaded
 	KnownStates  uint64 // Total number of state trie entries known about

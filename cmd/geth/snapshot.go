@@ -62,7 +62,7 @@ var (
 					utils.BloomFilterSizeFlag,
 				}, utils.NetworkFlags, utils.DatabasePathFlags),
 				Description: `
-geth snapshot prune-state <state-root>
+aegon snapshot prune-state <state-root>
 will prune historical state data with the help of the state snapshot.
 All trie nodes and contract codes that do not belong to the specified
 version state will be deleted from the database. After pruning, only
@@ -83,7 +83,7 @@ the trie clean cache with default directory will be deleted.
 				Action:    verifyState,
 				Flags:     flags.Merge(utils.NetworkFlags, utils.DatabasePathFlags),
 				Description: `
-geth snapshot verify-state <state-root>
+aegon snapshot verify-state <state-root>
 will traverse the whole accounts and storages set based on the specified
 snapshot and recalculate the root hash of state for verification.
 In other words, this command does the snapshot to trie conversion.
@@ -96,7 +96,7 @@ In other words, this command does the snapshot to trie conversion.
 				Action:    checkDanglingStorage,
 				Flags:     flags.Merge(utils.NetworkFlags, utils.DatabasePathFlags),
 				Description: `
-geth snapshot check-dangling-storage <state-root> traverses the snap storage 
+aegon snapshot check-dangling-storage <state-root> traverses the snap storage 
 data, and verifies that all snapshot storage data has a corresponding account. 
 `,
 			},
@@ -107,7 +107,7 @@ data, and verifies that all snapshot storage data has a corresponding account.
 				Action:    checkAccount,
 				Flags:     flags.Merge(utils.NetworkFlags, utils.DatabasePathFlags),
 				Description: `
-geth snapshot inspect-account <address | hash> checks all snapshot layers and prints out
+aegon snapshot inspect-account <address | hash> checks all snapshot layers and prints out
 information about the specified address. 
 `,
 			},
@@ -118,7 +118,7 @@ information about the specified address.
 				Action:    traverseState,
 				Flags:     flags.Merge(utils.NetworkFlags, utils.DatabasePathFlags),
 				Description: `
-geth snapshot traverse-state <state-root>
+aegon snapshot traverse-state <state-root>
 will traverse the whole state from the given state root and will abort if any
 referenced trie node or contract code is missing. This command can be used for
 state integrity verification. The default checking target is the HEAD state.
@@ -133,7 +133,7 @@ It's also usable without snapshot enabled.
 				Action:    traverseRawState,
 				Flags:     flags.Merge(utils.NetworkFlags, utils.DatabasePathFlags),
 				Description: `
-geth snapshot traverse-rawstate <state-root>
+aegon snapshot traverse-rawstate <state-root>
 will traverse the whole state from the given root and will abort if any referenced
 trie node or contract code is missing. This command can be used for state integrity
 verification. The default checking target is the HEAD state. It's basically identical
@@ -144,7 +144,7 @@ It's also usable without snapshot enabled.
 			},
 			{
 				Name:      "dump",
-				Usage:     "Dump a specific block from storage (same as 'geth dump' but using snapshots)",
+				Usage:     "Dump a specific block from storage (same as 'aegon dump' but using snapshots)",
 				ArgsUsage: "[? <blockHash> | <blockNum>]",
 				Action:    dumpState,
 				Flags: flags.Merge([]cli.Flag{
@@ -154,7 +154,7 @@ It's also usable without snapshot enabled.
 					utils.DumpLimitFlag,
 				}, utils.NetworkFlags, utils.DatabasePathFlags),
 				Description: `
-This command is semantically equivalent to 'geth dump', but uses the snapshots
+This command is semantically equivalent to 'aegon dump', but uses the snapshots
 as the backend data source, making this command a lot faster. 
 
 The argument is interpreted as block number or hash. If none is provided, the latest

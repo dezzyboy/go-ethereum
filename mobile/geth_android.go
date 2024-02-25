@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -17,7 +19,7 @@
 //go:build android
 // +build android
 
-package geth
+package aegon
 
 // clientIdentifier is a hard coded identifier to report into the network.
 var clientIdentifier = "GethDroid"

@@ -1,4 +1,6 @@
 // Copyright 2016 The go-ethereum Authors
+
+// Copyright 2023 The go-aegon Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -16,7 +18,7 @@
 
 // Contains all the wrappers from the math/big package.
 
-package geth
+package aegon
 
 import (
 	"errors"
@@ -77,7 +79,6 @@ func (bi *BigInt) SetInt64(x int64) {
 //	-1 if x <  0
 //	 0 if x == 0
 //	+1 if x >  0
-//
 func (bi *BigInt) Sign() int {
 	return bi.bigint.Sign()
 }
