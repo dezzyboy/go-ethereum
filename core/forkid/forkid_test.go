@@ -123,10 +123,10 @@ func TestCreation(t *testing.T) {
 				{10000000, ID{Hash: checksumToBytes(0x8E29F2F3), Next: 0}},      // Future London block
 			},
 		},
-		// Goerli test cases
+		// Stormborn test cases
 		{
-			params.GoerliChainConfig,
-			params.GoerliGenesisHash,
+			params.StormbornChainConfig,
+			params.StormbornGenesisHash,
 			[]testcase{
 				{0, ID{Hash: checksumToBytes(0xa3f5ab08), Next: 1561651}},       // Unsynced, last Frontier, Homestead, Tangerine, Spurious, Byzantium, Constantinople and first Petersburg block
 				{1561650, ID{Hash: checksumToBytes(0xa3f5ab08), Next: 1561651}}, // Last Petersburg block

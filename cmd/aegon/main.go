@@ -276,22 +276,22 @@ func prepare(ctx *cli.Context) {
 	// If we're running a known preset, log it for convenience.
 	switch {
 	case ctx.IsSet(utils.RopstenFlag.Name):
-		log.Info("Starting Geth on Ropsten testnet...")
+		log.Info("Starting Aegon on Ropsten testnet...")
 
 	case ctx.IsSet(utils.RinkebyFlag.Name):
-		log.Info("Starting Geth on Rinkeby testnet...")
+		log.Info("Starting Aegon on Rinkeby testnet...")
 
-	case ctx.IsSet(utils.GoerliFlag.Name):
-		log.Info("Starting Geth on Görli testnet...")
+	case ctx.IsSet(utils.StormbornFlag.Name):
+		log.Info("Starting Aegon on Stormborn testnet...")
 
 	case ctx.IsSet(utils.SepoliaFlag.Name):
-		log.Info("Starting Geth on Sepolia testnet...")
+		log.Info("Starting Aegon on Sepolia testnet...")
 
 	case ctx.IsSet(utils.KilnFlag.Name):
-		log.Info("Starting Geth on Kiln testnet...")
+		log.Info("Starting Aegon on Kiln testnet...")
 
 	case ctx.IsSet(utils.DeveloperFlag.Name):
-		log.Info("Starting Geth in ephemeral dev mode...")
+		log.Info("Starting Aegon in ephemeral dev mode...")
 		log.Warn(`You are running Geth in --dev mode. Please note the following:
 
   1. This mode is only intended for fast, iterative development without assumptions on
@@ -317,7 +317,7 @@ func prepare(ctx *cli.Context) {
 		if !ctx.IsSet(utils.RopstenFlag.Name) &&
 			!ctx.IsSet(utils.SepoliaFlag.Name) &&
 			!ctx.IsSet(utils.RinkebyFlag.Name) &&
-			!ctx.IsSet(utils.GoerliFlag.Name) &&
+			!ctx.IsSet(utils.StormbornFlag.Name) &&
 			!ctx.IsSet(utils.KilnFlag.Name) &&
 			!ctx.IsSet(utils.DeveloperFlag.Name) {
 			// Nope, we're really on mainnet. Bump that cache up!

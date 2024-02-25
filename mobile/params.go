@@ -61,9 +61,9 @@ func RinkebyGenesis() string {
 	return string(enc)
 }
 
-// GoerliGenesis returns the JSON spec to use for the Goerli test network
-func GoerliGenesis() string {
-	enc, err := json.Marshal(core.DefaultGoerliGenesisBlock())
+// StormbornGenesis returns the JSON spec to use for the Stormborn test network
+func StormbornGenesis() string {
+	enc, err := json.Marshal(core.DefaultStormbornGenesisBlock())
 	if err != nil {
 		panic(err)
 	}

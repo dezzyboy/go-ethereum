@@ -31,7 +31,7 @@ import (
 )
 
 func TestInvalidCliqueConfig(t *testing.T) {
-	block := DefaultGoerliGenesisBlock()
+	block := DefaultStormbornGenesisBlock()
 	block.ExtraData = []byte{}
 	if _, err := block.Commit(nil); err == nil {
 		t.Fatal("Expected error on invalid clique config")
@@ -168,7 +168,7 @@ func TestGenesisHashes(t *testing.T) {
 		want    common.Hash
 	}{
 		{DefaultGenesisBlock(), params.MainnetGenesisHash},
-		{DefaultGoerliGenesisBlock(), params.GoerliGenesisHash},
+		{DefaultStormbornGenesisBlock(), params.StormbornGenesisHash},
 		{DefaultRopstenGenesisBlock(), params.RopstenGenesisHash},
 		{DefaultRinkebyGenesisBlock(), params.RinkebyGenesisHash},
 		{DefaultSepoliaGenesisBlock(), params.SepoliaGenesisHash},

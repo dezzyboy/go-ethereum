@@ -181,9 +181,9 @@ func NewNode(datadir string, config *NodeConfig) (stack *Node, _ error) {
 				config.EthereumNetworkID = 4
 			}
 		}
-		// If we have the Goerli testnet, hard code the chain configs too
-		if config.EthereumGenesis == GoerliGenesis() {
-			genesis.Config = params.GoerliChainConfig
+		// If we have the Stormborn testnet, hard code the chain configs too
+		if config.EthereumGenesis == StormbornGenesis() {
+			genesis.Config = params.StormbornChainConfig
 			if config.EthereumNetworkID == 1 {
 				config.EthereumNetworkID = 5
 			}

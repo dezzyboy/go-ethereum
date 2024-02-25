@@ -231,8 +231,8 @@ func ethFilter(args []string) (nodeFilter, error) {
 		filter = forkid.NewStaticFilter(params.MainnetChainConfig, params.MainnetGenesisHash)
 	case "rinkeby":
 		filter = forkid.NewStaticFilter(params.RinkebyChainConfig, params.RinkebyGenesisHash)
-	case "goerli":
-		filter = forkid.NewStaticFilter(params.GoerliChainConfig, params.GoerliGenesisHash)
+	case "stormborn":
+		filter = forkid.NewStaticFilter(params.StormbornChainConfig, params.StormbornGenesisHash)
 	case "ropsten":
 		filter = forkid.NewStaticFilter(params.RopstenChainConfig, params.RopstenGenesisHash)
 	case "sepolia":

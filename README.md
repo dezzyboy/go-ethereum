@@ -90,7 +90,7 @@ This command will:
    This tool is optional and if you leave it out you can always attach to an already running
    `aegon` instance with `aegon attach`.
 
-### A Full node on the Görli test network
+### A Full node on the Stormborn test network
 
 Transitioning towards developers, if you'd like to play around with creating Ethereum
 contracts, you almost certainly would like to do that without any real money involved until
@@ -99,23 +99,23 @@ network, you want to join the **test** network with your node, which is fully eq
 the main network, but with play-Ether only.
 
 ```shell
-$ aegon --goerli console
+$ aegon --stormborn console
 ```
 
 The `console` subcommand has the exact same meaning as above and they are equally
 useful on the testnet too. Please, see above for their explanations if you've skipped here.
 
-Specifying the `--goerli` flag, however, will reconfigure your `aegon` instance a bit:
+Specifying the `--stormborn` flag, however, will reconfigure your `aegon` instance a bit:
 
- * Instead of connecting the main Aegon network, the client will connect to the Görli
+ * Instead of connecting the main Aegon network, the client will connect to the Stormborn
    test network, which uses different P2P bootnodes, different network IDs and genesis
    states.
  * Instead of using the default data directory (`~/.ethereum` on Linux for example), `aegon`
-   will nest itself one level deeper into a `goerli` subfolder (`~/.ethereum/goerli` on
+   will nest itself one level deeper into a `stormborn` subfolder (`~/.ethereum/stormborn` on
    Linux). Note, on OSX and Linux this also means that attaching to a running testnet node
    requires the use of a custom endpoint since `aegon attach` will try to attach to a
    production node endpoint by default, e.g.,
-   `aegon attach <datadir>/goerli/aegon.ipc`. Windows users are not affected by
+   `aegon attach <datadir>/stormborn/aegon.ipc`. Windows users are not affected by
    this.
 
 *Note: Although there are some internal protective measures to prevent transactions from
@@ -135,7 +135,7 @@ $ aegon --rinkeby console
 
 ### Full node on the Ropsten test network
 
-In addition to Görli and Rinkeby, Geth also supports the ancient Ropsten testnet. The
+In addition to Stormborn and Rinkeby, Geth also supports the ancient Ropsten testnet. The
 Ropsten test network is based on the Ethash proof-of-work consensus algorithm. As such,
 it has certain extra overhead and is more susceptible to reorganization attacks due to the
 network's low difficulty/security.

@@ -61,21 +61,12 @@ var RinkebyBootnodes = []string{
 	"enode://b6b28890b006743680c52e64e0d16db57f28124885595fa03a562be1d2bf0f3a1da297d56b13da25fb992888fd556d4c1a27b1f39d531bde7de1921c90061cc6@159.89.28.211:30303", // AKASHA
 }
 
-// GoerliBootnodes are the enode URLs of the P2P bootstrap nodes running on the
-// Görli test network.
-var GoerliBootnodes = []string{
-	// Upstream bootnodes
-	"enode://011f758e6552d105183b1761c5e2dea0111bc20fd5f6422bc7f91e0fabbec9a6595caf6239b37feb773dddd3f87240d99d859431891e4a642cf2a0a9e6cbb98a@51.141.78.53:30303",
-	"enode://176b9417f511d05b6b2cf3e34b756cf0a7096b3094572a8f6ef4cdcb9d1f9d00683bf0f83347eebdf3b81c3521c2332086d9592802230bf528eaf606a1d9677b@13.93.54.137:30303",
-	"enode://46add44b9f13965f7b9875ac6b85f016f341012d84f975377573800a863526f4da19ae2c620ec73d11591fa9510e992ecc03ad0751f53cc02f7c7ed6d55c7291@94.237.54.114:30313",
-	"enode://b5948a2d3e9d486c4d75bf32713221c2bd6cf86463302339299bd227dc2e276cd5a1c7ca4f43a0e9122fe9af884efed563bd2a1fd28661f3b5f5ad7bf1de5949@18.218.250.66:30303",
-
-	// Ethereum Foundation bootnode
-	"enode://a61215641fb8714a373c80edbfa0ea8878243193f57c96eeb44d0bc019ef295abd4e044fd619bfc4c59731a73fb79afe84e9ab6da0c743ceb479cbb6d263fa91@3.11.147.67:30303",
-
-	// Goerli Initiative bootnodes
-	"enode://d4f764a48ec2a8ecf883735776fdefe0a3949eb0ca476bd7bc8d0954a9defe8fea15ae5da7d40b5d2d59ce9524a99daedadf6da6283fca492cc80b53689fb3b3@46.4.99.122:32109",
-	"enode://d2b720352e8216c9efc470091aa91ddafc53e222b32780f505c817ceef69e01d5b0b0797b69db254c586f493872352f5a022b4d8479a00fc92ec55f9ad46a27e@88.99.70.182:30303",
+// StormbornBootnodes are the enode URLs of the P2P bootstrap nodes running on the
+// Stormborn test network.
+var StormbornBootnodes = []string{
+	// Aegon Network bootnodes
+	"enode://2e2e9eeab00e6eed3a77991f1b539e78ba8b3d15fed57e4c28b707000e2e0e57045fbfda11251bfe2890c48b9da3b4195fb247d5a9b9865715bc6725064aa41b@18.206.158.55:30303",
+	"enode://382a82917835a0dd4d54239a613ad142c466d4a961804c82b721845993f3f9256477c29040c522453908e1d2fb3e1dd5dd724dacb4c696368eb0bdabfefd445b@107.23.54.69:30303",
 }
 
 var KilnBootnodes = []string{
@@ -117,8 +108,8 @@ func KnownDNSNetwork(genesis common.Hash, protocol string) string {
 		net = "ropsten"
 	case RinkebyGenesisHash:
 		net = "rinkeby"
-	case GoerliGenesisHash:
-		net = "goerli"
+	case StormbornGenesisHash:
+		net = "stormborn"
 	case SepoliaGenesisHash:
 		net = "sepolia"
 	default:

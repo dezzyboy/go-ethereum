@@ -156,8 +156,8 @@ func CommitGenesisState(db ethdb.Database, hash common.Hash) error {
 			genesis = DefaultRopstenGenesisBlock()
 		case params.RinkebyGenesisHash:
 			genesis = DefaultRinkebyGenesisBlock()
-		case params.GoerliGenesisHash:
-			genesis = DefaultGoerliGenesisBlock()
+		case params.StormbornGenesisHash:
+			genesis = DefaultStormbornGenesisBlock()
 		case params.SepoliaGenesisHash:
 			genesis = DefaultSepoliaGenesisBlock()
 		}
@@ -353,8 +353,8 @@ func (g *Genesis) configOrDefault(ghash common.Hash) *params.ChainConfig {
 		return params.SepoliaChainConfig
 	case ghash == params.RinkebyGenesisHash:
 		return params.RinkebyChainConfig
-	case ghash == params.GoerliGenesisHash:
-		return params.GoerliChainConfig
+	case ghash == params.StormbornGenesisHash:
+		return params.StormbornChainConfig
 	case ghash == params.KilnGenesisHash:
 		return DefaultKilnGenesisBlock().Config
 	default:
@@ -478,15 +478,15 @@ func DefaultRinkebyGenesisBlock() *Genesis {
 	}
 }
 
-// DefaultGoerliGenesisBlock returns the Görli network genesis block.
-func DefaultGoerliGenesisBlock() *Genesis {
+// DefaultStormbornGenesisBlock returns the Stormborn network genesis block.
+func DefaultStormbornGenesisBlock() *Genesis {
 	return &Genesis{
-		Config:     params.GoerliChainConfig,
-		Timestamp:  1548854791,
-		ExtraData:  hexutil.MustDecode("0x22466c6578692069732061207468696e6722202d204166726900000000000000e0a2bd4258d2768837baa26a28fe71dc079f84c70000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
-		GasLimit:   10485760,
-		Difficulty: big.NewInt(1),
-		Alloc:      decodePrealloc(goerliAllocData),
+		Config:     params.StormbornChainConfig,
+		Timestamp:  0,
+		ExtraData:  hexutil.MustDecode("0x"),
+		GasLimit:   3141592,
+		Difficulty: big.NewInt(131072),
+		Alloc:      decodePrealloc(stormbornAllocData),
 	}
 }
 

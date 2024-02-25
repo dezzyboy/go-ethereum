@@ -29,31 +29,31 @@ import (
 
 // Genesis hashes toH enforce below configs on.
 var (
-	MainnetGenesisHash = common.HexToHash("0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3")
-	RopstenGenesisHash = common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d")
-	SepoliaGenesisHash = common.HexToHash("0x25a5cc106eea7138acab33231d7160d69cb777ee0c2c553fcddf5138993e6dd9")
-	RinkebyGenesisHash = common.HexToHash("0x6341fd3daf94b748c72ced5a5b26028f2474f5f00d824504e4fa37a75767e177")
-	GoerliGenesisHash  = common.HexToHash("0xbf7e331f7f7c1dd2e05159666b3bf8bc7a8a3a9eb1d518969eab529dd9b88c1a")
-	KilnGenesisHash    = common.HexToHash("0x51c7fe41be669f69c45c33a56982cbde405313342d9e2b00d7c91a7b284dd4f8")
+	MainnetGenesisHash   = common.HexToHash("0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3")
+	RopstenGenesisHash   = common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d")
+	SepoliaGenesisHash   = common.HexToHash("0x25a5cc106eea7138acab33231d7160d69cb777ee0c2c553fcddf5138993e6dd9")
+	RinkebyGenesisHash   = common.HexToHash("0x6341fd3daf94b748c72ced5a5b26028f2474f5f00d824504e4fa37a75767e177")
+	StormbornGenesisHash = common.HexToHash("0xe1208a2ba02d4ba27c31e166b34f43c0f72e8da2495243c1b7136d64a39284de")
+	KilnGenesisHash      = common.HexToHash("0x51c7fe41be669f69c45c33a56982cbde405313342d9e2b00d7c91a7b284dd4f8")
 )
 
 // TrustedCheckpoints associates each known checkpoint with the genesis hash of
 // the chain it belongs to.
 var TrustedCheckpoints = map[common.Hash]*TrustedCheckpoint{
-	MainnetGenesisHash: MainnetTrustedCheckpoint,
-	RopstenGenesisHash: RopstenTrustedCheckpoint,
-	SepoliaGenesisHash: SepoliaTrustedCheckpoint,
-	RinkebyGenesisHash: RinkebyTrustedCheckpoint,
-	GoerliGenesisHash:  GoerliTrustedCheckpoint,
+	MainnetGenesisHash:   MainnetTrustedCheckpoint,
+	RopstenGenesisHash:   RopstenTrustedCheckpoint,
+	SepoliaGenesisHash:   SepoliaTrustedCheckpoint,
+	RinkebyGenesisHash:   RinkebyTrustedCheckpoint,
+	StormbornGenesisHash: StormbornTrustedCheckpoint,
 }
 
 // CheckpointOracles associates each known checkpoint oracles with the genesis hash of
 // the chain it belongs to.
 var CheckpointOracles = map[common.Hash]*CheckpointOracleConfig{
-	MainnetGenesisHash: MainnetCheckpointOracle,
-	RopstenGenesisHash: RopstenCheckpointOracle,
-	RinkebyGenesisHash: RinkebyCheckpointOracle,
-	GoerliGenesisHash:  GoerliCheckpointOracle,
+	MainnetGenesisHash:   MainnetCheckpointOracle,
+	RopstenGenesisHash:   RopstenCheckpointOracle,
+	RinkebyGenesisHash:   RinkebyCheckpointOracle,
+	StormbornGenesisHash: StormbornCheckpointOracle,
 }
 
 var (
@@ -108,7 +108,7 @@ var (
 
 	// RopstenChainConfig contains the chain parameters to run a node on the Ropsten test network.
 	RopstenChainConfig = &ChainConfig{
-		ChainID:                       big.NewInt(9742),
+		ChainID:                       big.NewInt(3),
 		HomesteadBlock:                big.NewInt(0),
 		DAOForkBlock:                  nil,
 		DAOForkSupport:                true,
@@ -123,7 +123,7 @@ var (
 		MuirGlacierBlock:              big.NewInt(0),
 		BerlinBlock:                   big.NewInt(0),
 		LondonBlock:                   big.NewInt(0),
-		ChainID_ALT:                   big.NewInt(9742),
+		ChainID_ALT:                   big.NewInt(3),
 		TerminalTotalDifficulty:       new(big.Int).SetUint64(50_000_000_000_000_000),
 		TerminalTotalDifficultyPassed: true,
 		Ethash:                        new(EthashConfig),
@@ -226,48 +226,48 @@ var (
 		Threshold: 2,
 	}
 
-	// GoerliChainConfig contains the chain parameters to run a node on the Görli test network.
-	GoerliChainConfig = &ChainConfig{
-		ChainID:                       big.NewInt(5),
-		HomesteadBlock:                big.NewInt(0),
-		DAOForkBlock:                  nil,
-		DAOForkSupport:                true,
-		EIP150Block:                   big.NewInt(0),
-		EIP155Block:                   big.NewInt(0),
-		EIP158Block:                   big.NewInt(0),
-		ByzantiumBlock:                big.NewInt(0),
-		ConstantinopleBlock:           big.NewInt(0),
-		PetersburgBlock:               big.NewInt(0),
-		IstanbulBlock:                 big.NewInt(1_561_651),
-		MuirGlacierBlock:              nil,
-		BerlinBlock:                   big.NewInt(4_460_644),
-		LondonBlock:                   big.NewInt(5_062_605),
-		ArrowGlacierBlock:             nil,
-		TerminalTotalDifficulty:       big.NewInt(10_790_000),
-		TerminalTotalDifficultyPassed: true,
-		Clique: &CliqueConfig{
-			Period: 15,
-			Epoch:  30000,
-		},
+	// StormbornChainConfig contains the chain parameters to run a node on the Stormborn test network.
+	StormbornChainConfig = &ChainConfig{
+		ChainID:                 big.NewInt(9742),
+		HomesteadBlock:          big.NewInt(0),
+		DAOForkBlock:            nil,
+		DAOForkSupport:          true,
+		EIP150Block:             big.NewInt(0),
+		EIP155Block:             big.NewInt(0),
+		EIP158Block:             big.NewInt(0),
+		ByzantiumBlock:          big.NewInt(0),
+		ConstantinopleBlock:     big.NewInt(0),
+		PetersburgBlock:         big.NewInt(0),
+		IstanbulBlock:           big.NewInt(0),
+		MuirGlacierBlock:        nil,
+		BerlinBlock:             big.NewInt(0),
+		LondonBlock:             big.NewInt(0),
+		ArrowGlacierBlock:       nil,
+		TerminalTotalDifficulty: nil,
+		Ethash:                  new(EthashConfig),
+		// Clique: &CliqueConfig{
+		// 	Period: 15,
+		// 	Epoch:  30000,
+		// },
+	}
+	// StormbornTrustedCheckpoint contains the light client trusted checkpoint for the Stormborn test network.
+
+	StormbornTrustedCheckpoint = &TrustedCheckpoint{
+		SectionIndex: 0,                        // Since the network is new, no sections have been completed yet.
+		SectionHead:  common.HexToHash("0x00"), // Placeholder hash indicating the start of the network.
+		CHTRoot:      common.HexToHash("0x00"), // Placeholder CHT root hash.
+		BloomRoot:    common.HexToHash("0x00"), // Placeholder Bloom root hash.
 	}
 
-	// GoerliTrustedCheckpoint contains the light client trusted checkpoint for the Görli test network.
-	GoerliTrustedCheckpoint = &TrustedCheckpoint{
-		SectionIndex: 210,
-		SectionHead:  common.HexToHash("0xbb11eaf551a6c06f74a6c7bbfe1699cbf64b8f248b64691da916dd443176db2f"),
-		CHTRoot:      common.HexToHash("0x9934ae326d00d9c7de2e074c0e51689efb7fa7fcba18929ff4279c27259c45e6"),
-		BloomRoot:    common.HexToHash("0x7fe3bd4fd45194aa8a5cfe5ac590edff1f870d3d98d3c310494e7f67613a87ff"),
-	}
-
-	// GoerliCheckpointOracle contains a set of configs for the Goerli test network oracle.
-	GoerliCheckpointOracle = &CheckpointOracleConfig{
-		Address: common.HexToAddress("0x18CA0E045F0D772a851BC7e48357Bcaab0a0795D"),
+	// StormbornCheckpointOracle contains a set of configs for the Stormborn test network oracle.
+	StormbornCheckpointOracle = &CheckpointOracleConfig{
+		Address: common.HexToAddress("0x00"),
 		Signers: []common.Address{
-			common.HexToAddress("0x4769bcaD07e3b938B7f43EB7D278Bc7Cb9efFb38"), // Peter
-			common.HexToAddress("0x78d1aD571A1A09D60D9BBf25894b44e4C8859595"), // Martin
-			common.HexToAddress("0x286834935f4A8Cfb4FF4C77D5770C2775aE2b0E7"), // Zsolt
-			common.HexToAddress("0xb86e2B0Ab5A4B1373e40c51A7C712c70Ba2f9f8E"), // Gary
-			common.HexToAddress("0x0DF8fa387C602AE62559cC4aFa4972A7045d6707"), // Guillaume
+			common.HexToAddress("0x00"), // Peter
+			common.HexToAddress("0x00"), // Martin
+			common.HexToAddress("0x00"), // Zsolt
+			common.HexToAddress("0x00"), // Gary
+			common.HexToAddress("0x00"), // Guillaume
 		},
 		Threshold: 2,
 	}
@@ -292,11 +292,11 @@ var (
 
 // NetworkNames are user friendly names to use in the chain spec banner.
 var NetworkNames = map[string]string{
-	MainnetChainConfig.ChainID.String(): "mainnet",
-	RopstenChainConfig.ChainID.String(): "ropsten",
-	RinkebyChainConfig.ChainID.String(): "rinkeby",
-	GoerliChainConfig.ChainID.String():  "goerli",
-	SepoliaChainConfig.ChainID.String(): "sepolia",
+	MainnetChainConfig.ChainID.String():   "mainnet",
+	RopstenChainConfig.ChainID.String():   "ropsten",
+	RinkebyChainConfig.ChainID.String():   "rinkeby",
+	StormbornChainConfig.ChainID.String(): "stormborn",
+	SepoliaChainConfig.ChainID.String():   "sepolia",
 }
 
 // TrustedCheckpoint represents a set of post-processed trie roots (CHT and
