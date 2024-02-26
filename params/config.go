@@ -33,7 +33,7 @@ var (
 	RopstenGenesisHash   = common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d")
 	SepoliaGenesisHash   = common.HexToHash("0x25a5cc106eea7138acab33231d7160d69cb777ee0c2c553fcddf5138993e6dd9")
 	RinkebyGenesisHash   = common.HexToHash("0x6341fd3daf94b748c72ced5a5b26028f2474f5f00d824504e4fa37a75767e177")
-	StormbornGenesisHash = common.HexToHash("0xe1208a2ba02d4ba27c31e166b34f43c0f72e8da2495243c1b7136d64a39284de")
+	StormbornGenesisHash = common.HexToHash("0x05d675b8051f64f876f3aed5445293320ca613750636f1ade8d3d81104e45932")
 	KilnGenesisHash      = common.HexToHash("0x51c7fe41be669f69c45c33a56982cbde405313342d9e2b00d7c91a7b284dd4f8")
 )
 
